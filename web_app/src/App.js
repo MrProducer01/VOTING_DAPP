@@ -1,33 +1,35 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import VoterComponent from './component/voter_component';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomeComponent from './component/home_component'; // Import the HomeComponent
 import AdminComponent from './component/admin_component';
-import {connectWeb3Metamask} from './web3_functions'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { connectWeb3Metamask } from './web3_functions';
 import detectEthereumProvider from '@metamask/detect-provider';
-
+import Registration from './component/registration_component';
+import Candidate_List from './component/candidate_component';
+import VoterList from './component/voterlist';
 function App() {
+  const [contractInstance, setContract] = useState(null);
+  const [accounts, setAccounts] = useState();
 
-  const [contractInstance, setContract] = useState(null)
-  const [accounts, setAccounts] = useState()
-
-  useEffect(()=>{ 
-    async function connect(){
+  useEffect(() => {
+    async function connect() {
       const provider = await detectEthereumProvider();
       try {
         if (provider) {
           console.log("Metamask found");
-          let {accounts, instance} = await connectWeb3Metamask(provider);
+          let { accounts, instance } = await connectWeb3Metamask(provider);
           setAccounts(accounts);
           setContract(instance);
         } else {
           alert(
             `Metamask not found. Install metamask!!`
-          )
+          );
         }
       } catch (error) {
         // -32002 error code means metamask is trying to take permission
-        if(error.code !== -32002){
+        if (error.code !== -32002) {
           alert(
             `Failed to load web3, accounts, or contract. Check console for details.`,
           );
@@ -36,23 +38,26 @@ function App() {
       }
     }
     connect();
-  },[])
+  }, []);
 
   return (
     <div className="App">
-       { contractInstance == null ? 
+      {contractInstance == null ? 
         <>
-          <h2 style={{textAlign: "center"}}> Loading Application </h2>
+          <h2 style={{ textAlign: "center" }}> Loading Application </h2>
         </> :
         <>
           <BrowserRouter>
             <Routes>
-              <Route index element={<AdminComponent contractInstance={contractInstance} account={accounts[0]} />}/>
-              <Route path="/voting" element={<VoterComponent  contractInstance={contractInstance} account={accounts[0]} />} />
-            </Routes>
+              <Route index element={<HomeComponent />} /> {/* Set HomeComponent as the default route */}
+              <Route path="/voting" element={<VoterComponent contractInstance={contractInstance} account={accounts[0]} />} />
+              <Route path="/admin" element={<AdminComponent contractInstance={contractInstance} account={accounts[0]} />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/candidate" element={<Candidate_List />} />
+              <Route path="/voterlist" element={<VoterList />} />
+            </Routes> 
           </BrowserRouter>
         </>}
-      
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import personImage from '../person.png'
 import Card from '@mui/material/Card';
+import { Link,useNavigate } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -11,10 +12,18 @@ function VoterComponent({account, contractInstance}) {
 
   const [totalCandidate, setTotalCandidate] = useState([]);
   const [votingStatus, setVotingStatus] = useState(false);
+  const adminAddress = "0xe4A74dCC1bd80d02d70A10958335384Ccb2a6f18";
+  const navigate = useNavigate();
 
+  
   useEffect(() => {
     async function connect() {
       try {
+        // Check if the logged-in account is the admin
+        // if (account.toLowerCase() === adminAddress.toLowerCase()) {
+        //   navigate('/'); // Redirect to admin route
+        //   return; // Exit the function early
+        // }
         const status = await votingStarted(contractInstance, account);
         if (status.message) {
           const arr = await getAllCandidate(contractInstance, account);
@@ -28,13 +37,17 @@ function VoterComponent({account, contractInstance}) {
     }
   
     connect();
-  }, [account, contractInstance]);
+  }, [account, contractInstance,adminAddress,navigate]);
   
 
   async function vote(candidate){
     let result = await putVote(contractInstance, account, candidate.candidateAddress);
     console.log("result:", result);
   }
+  
+  // const isAdmin = (adminAddress) => {
+  //   return account === adminAddress;
+  // };
 
   return (
     <div style={{paddingTop: "18px", paddingLeft: "5%",paddingRight: "5%" }}>
@@ -63,7 +76,7 @@ function VoterComponent({account, contractInstance}) {
                           {candidate.name} 
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {candidate.age}<br/>
+                          {candidate.uid}<br/>
                           {candidate.address}
                         </Typography>
                       </CardContent>
@@ -77,6 +90,9 @@ function VoterComponent({account, contractInstance}) {
             ):(
               <h2>no candidate found!</h2>  
           )} 
+          {/* <Link to="/admin" style={{ marginTop: 20 }}>
+            <Button variant="contained">Admin</Button>
+          </Link> */}
         </div>
       </div>
       

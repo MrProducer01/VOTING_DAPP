@@ -12,7 +12,7 @@ contract Voting {
 
     struct Candidate{
         string name;
-        uint age;
+        string uid;
         bool registered;
         address candidateAddress;
         uint votes;
@@ -35,13 +35,13 @@ contract Voting {
         votingStarted=false;
     }
 
-    function registerCandidates(string memory _name, uint _age, address _candidateAddress) external {
+    function registerCandidates(string memory _name, string memory _uid, address _candidateAddress) external {
         require(msg.sender == owner, "Only owner can register Candidate!!");
         require(_candidateAddress != owner, "Owner can not participate!!");
         require(candidates[_candidateAddress] == 0, "Candidate already registered");
         Candidate memory candidate = Candidate({
             name: _name,
-            age: _age,
+            uid: _uid,
             registered: true,
             votes: 0,
             candidateAddress: _candidateAddress
@@ -99,6 +99,17 @@ contract Voting {
         emit success("Voting stoped!!");
     }
 
+    function getAllCandidateVotes() external view returns (string[] memory uids, uint[] memory votes) {
+    uint candidateCount = candidateList.length;
+    uids = new string[](candidateCount);
+    votes = new uint[](candidateCount);
+
+    for (uint i = 0; i < candidateCount; i++) {
+        uids[i] = candidateList[i].uid; // Assuming uid is a property of the Candidate struct
+        votes[i] = candidateList[i].votes; // Assuming votes is a property of the Candidate struct
+        }
+    }
+    
     function getAllCandidate() external view returns(Candidate[] memory list){
         return candidateList;
     }
@@ -107,8 +118,10 @@ contract Voting {
         return votingStarted;
     }
 
-    function getWinner() public view returns(Candidate memory candidate){
+    function getWinner() public view returns(string memory name, string memory uid, uint votes){
         require(msg.sender == owner, "Only owner can declare winner!!");
-        return candidateList[candidates[winnerAddress]];
+        Candidate memory winner = candidateList[candidates[winnerAddress]];
+        return (winner.name, winner.uid, winner.votes); // Return name, uid, and votes
     }
+
 }

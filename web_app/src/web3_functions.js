@@ -53,7 +53,7 @@ async function connectWeb3Metamask(provider) {
     }
   }
 
-async function registerCandidates(contract, account, _name, _age, _candidateAddress) {
+async function registerCandidates(contract, account, _name, _uid, _candidateAddress) {
     try {
         console.log("registerCandidates:", contract._address);
         // Getting contract address
@@ -71,7 +71,7 @@ async function registerCandidates(contract, account, _name, _age, _candidateAddr
         const txData = contract.methods
             .registerCandidates(
                 _name,
-                Number(_age),
+                _uid,
                 _candidateAddress
             )
             .encodeABI();
@@ -265,19 +265,16 @@ async function votingStarted(contractInstance, account) {
 
 }
 
-async function getWinner(contractInstance, account) {
+async function getWinner(contractInstance) {
     try {
-        console.log("contract:",contractInstance.methods);
-        let winnerAddress = await contractInstance.methods.winnerAddress().call();
-        let arrayPosition = await contractInstance.methods.candidates(winnerAddress).call();
-        let winnerDetails = await contractInstance.methods.candidateList(arrayPosition).call();
-        console.log("winnerAddress:", winnerAddress);
-        console.log("arrayPosition:",arrayPosition);
-        console.log("winnerDetails:",winnerDetails);
-        return { error: false, message: { candidateAddress: winnerDetails.candidateAddress, age: winnerDetails.age, name: winnerDetails.name } }
+        const result = await contractInstance.methods.getWinner().call();
+        const [name, uid, votes] = result;
+
+        return { error: false, winner: { name, uid, votes } };
     } catch (error) {
-        console.log("Error:", error);
-        return { error: true, message: error.message }
+        console.error("Error fetching winner:", error);
+        console.error("Error details:", error.message); // Log the error message
+        return { error: true, message: error.message };
     }
 }
 
@@ -297,6 +294,25 @@ async function getAllCandidate(contractInstance, account) {
         return { error: true, message: error.message }
     }
 
+}
+
+async function getAllCandidateVotes(contractInstance) {
+    try {
+        // Call the getAllCandidateVotes function from the contract
+        const { 0: uids, 1: votes } = await contractInstance.methods.getAllCandidateVotes().call();
+
+        // Combine the UIDs and votes into an array of objects for easier handling
+        const candidatesWithVotes = uids.map((uid, index) => ({
+            uid: uid,
+            votes: votes[index]
+        }));
+
+        console.log("Candidates with Votes:", candidatesWithVotes);
+        return { error: false, message: candidatesWithVotes };
+    } catch (error) {
+        console.log("Error:", error);
+        return { error: true, message: error.message };
+    }
 }
 
 async function putVote(contract, account, _candidateAddress) {
@@ -357,4 +373,5 @@ export {
     whiteListAddress,
     startVoting,
     stopVoting,
+    getAllCandidateVotes,
     votingStarted,}

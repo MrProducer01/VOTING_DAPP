@@ -8,7 +8,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import {registerCandidates, whiteListAddress, getAllCandidate, getWinner, startVoting, stopVoting} from '../web3_functions'
+import { Link,useNavigate } from 'react-router-dom';
+import {registerCandidates, whiteListAddress, getAllCandidate, getWinner, startVoting, stopVoting,getAllCandidateVotes} from '../web3_functions'
 
 const errorMsg = (
     <Alert severity="error">
@@ -21,14 +22,27 @@ const errorMsg = (
 function AdminComponent({account, contractInstance}) {
 
     const [candidateName, setCandidateName] = useState();
-    const [candidateAge, setCandidateAge] = useState();
+    const [candidateUid, setCandidateUid] = useState();
     const [candidateAddress, setCandidatAddress] = useState();
     const [voterAddress, setVoterAddress] = useState();
     const [winnerAddress, setWinnerAddress] = useState();
+    const [winnerUid, setWinnerUid] = useState('');
+    const [winnerVotes, setWinnerVotes] = useState('');
+    const [candidatesWithVotes, setCandidatesWithVotes] = useState([]);
+    const adminAddress = "0xe4A74dCC1bd80d02d70A10958335384Ccb2a6f18";
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Check if the logged-in account is the admin
+        // if (account.toLowerCase() !== adminAddress.toLowerCase()) {
+        //     navigate('/'); // Redirect to home route
+        //     return; // Exit the function early
+        // }
+    }, [account, navigate, adminAddress]);
 
     async function register_candidate(){
         console.log("name:", candidateName);
-        let result = await registerCandidates(contractInstance, account, candidateName, candidateAge, candidateAddress);
+        let result = await registerCandidates(contractInstance, account, candidateName, candidateUid, candidateAddress);
         console.log("result:", result);
     }
 
@@ -60,6 +74,14 @@ function AdminComponent({account, contractInstance}) {
         console.log("result:", message);
         setWinnerAddress(message.name)
     }
+    async function fetchCandidatesWithVotes() {
+        const result = await getAllCandidateVotes(contractInstance);
+        if (!result.error) {
+            setCandidatesWithVotes(result.message);
+        } else {
+            console.error("Error fetching candidates with votes:", result.message);
+        }
+    }
 
     return(
         <div style={{paddingTop: "18px", paddingLeft: "5%", paddingRight: "5%" }}>
@@ -75,8 +97,8 @@ function AdminComponent({account, contractInstance}) {
                         <CardContent>
                             <TextField id="outlined-basic" label="Candidate name" variant="outlined" style={{width: '100%', marginBottom: '10px'}}
                                 onChange={(e)=>setCandidateName(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Candidate Ag" variant="outlined" style={{width: '100%',marginBottom: '10px'}}
-                                onChange={(e)=>setCandidateAge(e.target.value)}/>
+                            <TextField id="outlined-basic" label="Candidate UID" variant="outlined" style={{width: '100%',marginBottom: '10px'}}
+                                onChange={(e)=>setCandidateUid(e.target.value)}/>
                             <TextField id="outlined-basic" label="Candidate Address" variant="outlined" style={{width: '100%'}}
                                 onChange={(e)=>setCandidatAddress(e.target.value)}/>
                         </CardContent>
@@ -125,6 +147,36 @@ function AdminComponent({account, contractInstance}) {
                             <Button variant="contained" onClick={get_Winner}>Get Wineer</Button>
                         </CardActions>
                     </Card>
+                    <Card sx={{ maxWidth: 400, marginTop: 5 }}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
+                                View Candidates with Votes
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button variant="contained" onClick={fetchCandidatesWithVotes}>Fetch Candidates</Button>
+                        </CardActions>
+                    </Card>
+
+                    {candidatesWithVotes.length > 0 && (
+            <Card sx={{ maxWidth: 400, marginTop: 5 }}>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
+                    Candidates List
+                    </Typography>
+                    {candidatesWithVotes.map((candidate, index) => (
+                    <Typography key={index} variant="body2" color="text.secondary">
+                     UID: {candidate.uid}, Votes: {candidate.votes.toString()} {/* Ensure votes is a string */}
+                 </Typography>
+                ))}
+                </CardContent>
+        </Card>
+        )}
+                    <Link to="/voterlist">
+                 <Button variant="contained">Voterlist</Button>
+                    </Link>
+
+                    
                 </div>
                 
             </div>
