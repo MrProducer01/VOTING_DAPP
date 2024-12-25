@@ -66,16 +66,10 @@ app.post('/api/register', upload.single('photo'), async (req, res) => {
             return res.status(400).json({ message: "All fields are required." });
         }
 
-        // Check for existing candidate
-        const existingCandidate = await Candidate.findOne({ $or: [{ usn }, { email }] });
-        if (existingCandidate) {
-            return res.status(400).json({ message: "USN or email already exists." });
-        }
-
         console.log("Received data:", { name, section, semester, usn, email, message, role, photo });
 
         if (role === 'candidate') {
-            const new Candidate = new Candidate({ name, section, semester, usn, email, message, photo });
+            const newCandidate = new Candidate({ name, section, semester, usn, email, message, photo });
             await newCandidate.save();
             return res.json({ message: "Candidate registration successful!" });
         } else if (role === 'voter') {

@@ -28,10 +28,10 @@ function AdminComponent({account, contractInstance}) {
     const [winnerAddress, setWinnerAddress] = useState();
     const [winnerUid, setWinnerUid] = useState('');
     const [winnerVotes, setWinnerVotes] = useState('');
+    const [winnerDetails, setWinnerDetails] = useState([]);
     const [candidatesWithVotes, setCandidatesWithVotes] = useState([]);
     const adminAddress = "0xe4A74dCC1bd80d02d70A10958335384Ccb2a6f18";
     const navigate = useNavigate();
-
     useEffect(() => {
         // Check if the logged-in account is the admin
         // if (account.toLowerCase() !== adminAddress.toLowerCase()) {
@@ -39,7 +39,7 @@ function AdminComponent({account, contractInstance}) {
         //     return; // Exit the function early
         // }
     }, [account, navigate, adminAddress]);
-
+   
     async function register_candidate(){
         console.log("name:", candidateName);
         let result = await registerCandidates(contractInstance, account, candidateName, candidateUid, candidateAddress);
@@ -68,12 +68,12 @@ function AdminComponent({account, contractInstance}) {
     }
 
     
-    async function get_Winner(){
-        console.log("name:", candidateName);
-        let {message} = await getWinner(contractInstance, account);
-        console.log("result:", message);
-        setWinnerAddress(message.name)
-    }
+    // async function get_Winner(){
+    //     console.log("name:", candidateName);
+    //     let {message} = await getWinner(contractInstance, account);
+    //     console.log("result:", message);
+    //     setWinnerAddress(message.name)
+    // }
     async function fetchCandidatesWithVotes() {
         const result = await getAllCandidateVotes(contractInstance);
         if (!result.error) {
@@ -82,7 +82,16 @@ function AdminComponent({account, contractInstance}) {
             console.error("Error fetching candidates with votes:", result.message);
         }
     }
-
+    async function get_Winner() {
+        console.log("Fetching winner details...");
+        const { error, message } = await getWinner(contractInstance, account);
+        if (!error) {
+            setWinnerDetails(message); // Set winner details in state
+        } else {
+            console.error("Error fetching winner details:", message);
+            setWinnerDetails([]); // Reset to an empty array on error
+        }
+    }
     return(
         <div style={{paddingTop: "18px", paddingLeft: "5%", paddingRight: "5%" }}>
             <div className='banner-area'style={{marginBottom: 20}} >
@@ -139,13 +148,30 @@ function AdminComponent({account, contractInstance}) {
                         </CardActions>
                     </Card>
 
-                    <Card sx={{ maxWidth: 400, marginTop: 5}}>
+                    {/* <Card sx={{ maxWidth: 400, marginTop: 5}}>
                         <CardContent>
                             <TextField id="outlined-basic" label={winnerAddress} variant="outlined" disabled style={{width: '100%'}}/>
                         </CardContent>
                         <CardActions>
                             <Button variant="contained" onClick={get_Winner}>Get Wineer</Button>
                         </CardActions>
+                    </Card> */}
+                     <Card sx={{ maxWidth: 400, marginTop: 5 }}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
+                                Winner Details
+                            </Typography>
+                            <Button variant="contained" onClick={get_Winner}>Get Winner</Button>
+                            {winnerDetails.length > 0 ? (
+                                winnerDetails.map((winner, index) => (
+                                    <Typography key={index}>
+                                        Name: {winner.name}, UID: {winner.uid}, Votes: {winner.votes.toString()}
+                                    </Typography>
+                                ))
+                            ) : (
+                                <Typography>No winners found.</Typography>
+                            )}
+                        </CardContent>
                     </Card>
                     <Card sx={{ maxWidth: 400, marginTop: 5 }}>
                         <CardContent>

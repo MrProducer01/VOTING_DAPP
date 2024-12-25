@@ -265,16 +265,31 @@ async function votingStarted(contractInstance, account) {
 
 }
 
-async function getWinner(contractInstance) {
+async function getWinner(contractInstance, account) {
     try {
-        const result = await contractInstance.methods.getWinner().call();
-        const [name, uid, votes] = result;
+        console.log("Fetching winner details from contract...");
 
-        return { error: false, winner: { name, uid, votes } };
+        // Call the getWinner function from the contract
+        const winners = await contractInstance.methods.getWinner().call();
+
+        // Check if winners is an array
+        if (!Array.isArray(winners)) {
+            console.error("Expected winners to be an array, but got:", winners);
+            return { error: true, message: "Unexpected data format" };
+        }
+
+        // Process the winners array to extract details
+        const winnerDetails = winners.map(winner => ({
+            name: winner.name || "", // Ensure these properties exist
+            uid: winner.uid || "",
+            votes: winner.votes || 0
+        }));
+
+        console.log("Winner Details:", winnerDetails);
+        return { error: false, message: winnerDetails };
     } catch (error) {
-        console.error("Error fetching winner:", error);
-        console.error("Error details:", error.message); // Log the error message
-        return { error: true, message: error.message };
+        console.error("Error fetching winner details:", error.message || error);
+        return { error: true, message: error.message || "Unknown error" };
     }
 }
 
