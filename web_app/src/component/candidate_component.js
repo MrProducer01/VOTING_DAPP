@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Typography, Card, CardContent, CardMedia } from '@mui/material';
+import Navbar from './Navbar';
 
 const Candidate_List = () => {
     const [candidates, setCandidates] = useState([]);
@@ -19,6 +20,8 @@ const Candidate_List = () => {
     }, []);
 
     return (
+        <div>
+            <Navbar />
         <Box sx={{ padding: 2 }}>
             <Typography variant="h4">Candidates</Typography>
             {candidates.map((candidate) => (
@@ -36,6 +39,7 @@ const Candidate_List = () => {
                 </Card>
             ))}
         </Box>
+        </div>
     );
 };
 

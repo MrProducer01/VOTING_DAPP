@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import axios from 'axios';
+import Navbar from './Navbar';
 
 const Registration = () => {
     const [role, setRole] = useState('voter'); // Default role
@@ -45,6 +46,8 @@ const Registration = () => {
     };
 
     return (
+        <div>
+            <Navbar />
         <Box sx={{ padding: 2 }}>
             <Typography variant="h4">Registration</Typography>
             <form onSubmit={handleSubmit}>
@@ -66,6 +69,7 @@ const Registration = () => {
                 <Button type="submit" variant="contained" sx={{ marginTop: 2 }}>Register</Button>
             </form>
         </Box>
+        </div>
     );
 };
 

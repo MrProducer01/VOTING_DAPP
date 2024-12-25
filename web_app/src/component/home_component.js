@@ -1,24 +1,13 @@
+// HomeComponent.js
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-//import './HomeComponent.css'; // Optional: for custom styles
+import Navbar from './Navbar';
+// import './HomeComponent.css';
 
 const HomeComponent = () => {
     return (
         <div>
             {/* Navbar */}
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1 }}>
-                        College Election App
-                    </Typography>
-                    <Button color="inherit" component={Link} to="/">Home</Button>
-                    <Button color="inherit" component={Link} to="/candidate">Candidate List</Button>
-                    <Button color="inherit" component={Link} to="/register">Register</Button>
-                    <Button color="inherit" component={Link} to="/voting">Voting</Button>
-                    <Button color="inherit" component={Link} to="/admin">Admin</Button>
-                </Toolbar>
-            </AppBar>
+            <Navbar />
 
             {/* Main Content */}
             <div className="home-content">

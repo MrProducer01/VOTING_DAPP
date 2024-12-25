@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import { TextField } from '@mui/material';
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Box'
+import { Card, CardActions, Typography, Button, IconButton,CardContent } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Link,useNavigate } from 'react-router-dom';
 import {registerCandidates, whiteListAddress, getAllCandidate, getWinner, startVoting, stopVoting,getAllCandidateVotes} from '../web3_functions'
+import Navbar from './Navbar';
+import  './css/admin_component.css';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import StopIcon from '@mui/icons-material/Stop'; // Icon for Stop Voting
+import PeopleIcon from '@mui/icons-material/People'; // Icon for Voter List
+import PersonIcon from '@mui/icons-material/Person'; // Icon for Candidate List
 
 const errorMsg = (
     <Alert severity="error">
@@ -67,13 +69,6 @@ function AdminComponent({account, contractInstance}) {
         console.log("result:", result);
     }
 
-    
-    // async function get_Winner(){
-    //     console.log("name:", candidateName);
-    //     let {message} = await getWinner(contractInstance, account);
-    //     console.log("result:", message);
-    //     setWinnerAddress(message.name)
-    // }
     async function fetchCandidatesWithVotes() {
         const result = await getAllCandidateVotes(contractInstance);
         if (!result.error) {
@@ -92,122 +87,146 @@ function AdminComponent({account, contractInstance}) {
             setWinnerDetails([]); // Reset to an empty array on error
         }
     }
-    return(
-        <div style={{paddingTop: "18px", paddingLeft: "5%", paddingRight: "5%" }}>
-            <div className='banner-area'style={{marginBottom: 20}} >
-                <h1>WELCOME TO COLLEGE PRESIDENT ELECTION</h1>
-            </div>
-            <div >
-                <div style={{float:"left", marginRight: 100}}>
-                    <Card sx={{ width: 400 }}>
-                        <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2} style={{marginTop: '10px'}}>
-                            Register Candidate
-                        </Typography>
-                        <CardContent>
-                            <TextField id="outlined-basic" label="Candidate name" variant="outlined" style={{width: '100%', marginBottom: '10px'}}
-                                onChange={(e)=>setCandidateName(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Candidate UID" variant="outlined" style={{width: '100%',marginBottom: '10px'}}
-                                onChange={(e)=>setCandidateUid(e.target.value)}/>
-                            <TextField id="outlined-basic" label="Candidate Address" variant="outlined" style={{width: '100%'}}
-                                onChange={(e)=>setCandidatAddress(e.target.value)}/>
-                        </CardContent>
-                        <CardActions>
-                            <Button variant="contained" onClick={register_candidate}>Register Candidate</Button>
-                        </CardActions>
-                    </Card>
-
-                    <Card sx={{ maxWidth: 400, marginTop: 5, marginBottom: 5}}>
-                        <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2} style={{marginTop: '10px'}}>
-                            Register Voter
-                        </Typography>
-                        <CardContent>
-                            <TextField id="outlined-basic" label="Register Voter" variant="outlined" style={{width: '100%'}}
-                                onChange={(e)=>setVoterAddress(e.target.value)}/>
-                        </CardContent>
-                        <CardActions>
-                            <Button variant="contained" onClick={register_voter}>Register Voter</Button>
-                        </CardActions>
-                    </Card>
-                </div>
-                <div>
-                    <Card sx={{ width: 400}}>
-                        <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
-                            Start Voting
-                        </Typography>
-                        <CardActions align="middle">
-                            <Button variant="contained" onClick={start_voting}>Start Voting</Button>
-                        </CardActions>
-                    </Card>
-
-                    <Card sx={{ maxWidth: 400, marginTop: 5}}>
-                        <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
-                            Stop Voting
-                        </Typography>
-                        <CardActions>
-                            <Button variant="contained" onClick={stop_voting}>Stop Voting</Button>
-                        </CardActions>
-                    </Card>
-
-                    {/* <Card sx={{ maxWidth: 400, marginTop: 5}}>
-                        <CardContent>
-                            <TextField id="outlined-basic" label={winnerAddress} variant="outlined" disabled style={{width: '100%'}}/>
-                        </CardContent>
-                        <CardActions>
-                            <Button variant="contained" onClick={get_Winner}>Get Wineer</Button>
-                        </CardActions>
-                    </Card> */}
-                     <Card sx={{ maxWidth: 400, marginTop: 5 }}>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
-                                Winner Details
-                            </Typography>
-                            <Button variant="contained" onClick={get_Winner}>Get Winner</Button>
-                            {winnerDetails.length > 0 ? (
-                                winnerDetails.map((winner, index) => (
-                                    <Typography key={index}>
-                                        Name: {winner.name}, UID: {winner.uid}, Votes: {winner.votes.toString()}
-                                    </Typography>
-                                ))
-                            ) : (
-                                <Typography>No winners found.</Typography>
-                            )}
-                        </CardContent>
-                    </Card>
-                    <Card sx={{ maxWidth: 400, marginTop: 5 }}>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
-                                View Candidates with Votes
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button variant="contained" onClick={fetchCandidatesWithVotes}>Fetch Candidates</Button>
-                        </CardActions>
-                    </Card>
-
-                    {candidatesWithVotes.length > 0 && (
-            <Card sx={{ maxWidth: 400, marginTop: 5 }}>
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div" align='left' paddingLeft={2}>
-                    Candidates List
+    return (
+        <div className="admin-container">
+          <Navbar />
+          <div style={{ padding: "20px 5%" }}>
+            <Card className="content-card" style={{ paddingLeft: "5%",paddingRight:"5%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+            <Card className="banner-card">
+                    <h1>ADMIN CONTROL PANEL</h1>
+            </Card>
+      
+              {/* First Row */}
+              <div className="row">
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                  <IconButton color="primary" aria-label="start voting" onClick={start_voting}>
+                    <PlayArrowIcon /> {/* PlayArrow is a start icon */}
+                </IconButton>
+                    Start Voting
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" onClick={start_voting}>Start Voting</Button>
+                  </CardActions>
+                </Card>
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                  <IconButton color="primary" aria-label="stop voting" onClick={stop_voting}>
+                        <StopIcon /> {/* Stop Icon */}
+                    </IconButton>
+                    Stop Voting
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" onClick={stop_voting}>Stop Voting</Button>
+                  </CardActions>
+                </Card>
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                  <IconButton color="primary" aria-label="voter list">
+                        <PeopleIcon /> {/* Voter List Icon */}
+                    </IconButton>
+                    Voter List
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" component={Link} to="/voterlist">Voter List</Button>
+                  </CardActions>
+                </Card>
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                  <IconButton color="primary" aria-label="candidate list">
+                        <PersonIcon /> {/* Candidate List Icon */}
+                    </IconButton>
+                    Candidate List
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" component={Link} to="/candidate">Candidate List</Button>
+                  </CardActions>
+                </Card>
+              </div>
+      
+              {/* Second Row */}
+              <div className="row">
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                    Register Candidate
+                  </Typography>
+                  <CardContent>
+                    <TextField
+                      label="Candidate Name"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setCandidateName(e.target.value)}
+                    />
+                    <TextField
+                      label="Candidate UID"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setCandidateUid(e.target.value)}
+                      style={{ marginTop: 10 }}
+                    />
+                    <TextField
+                      label="Candidate Address"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setCandidatAddress(e.target.value)}
+                      style={{ marginTop: 10 }}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" onClick={register_candidate}>Register Candidate</Button>
+                  </CardActions>
+                </Card>
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                    Register Voter
+                  </Typography>
+                  <CardContent>
+                    <TextField
+                      label="Voter Address"
+                      variant="outlined"
+                      fullWidth
+                      onChange={(e) => setVoterAddress(e.target.value)}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <Button variant="contained" onClick={register_voter}>Register Voter</Button>
+                  </CardActions>
+                </Card>
+              </div>
+      
+              {/* Third Row */}
+              <div className="row">
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                    Winner Details
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" onClick={get_Winner}>Get Winner</Button>
+                  </CardActions>
+                  {winnerDetails.map((winner, index) => (
+                    <Typography key={index} style={{ padding: 10 }}>
+                      Name: {winner.name}, UID: {winner.uid}, Votes: {winner.votes.toString()}
                     </Typography>
-                    {candidatesWithVotes.map((candidate, index) => (
-                    <Typography key={index} variant="body2" color="text.secondary">
-                     UID: {candidate.uid}, Votes: {candidate.votes.toString()} {/* Ensure votes is a string */}
-                 </Typography>
-                ))}
-                </CardContent>
-        </Card>
-        )}
-                    <Link to="/voterlist">
-                 <Button variant="contained">Voterlist</Button>
-                    </Link>
-
-                    
-                </div>
-                
-            </div>
-      </div>
-    )
+                  ))}
+                </Card>
+                <Card className="card">
+                  <Typography variant="h5" className="card-title">
+                    Candidates with Votes
+                  </Typography>
+                  <CardActions>
+                    <Button variant="contained" onClick={fetchCandidatesWithVotes}>Fetch Candidates</Button>
+                  </CardActions>
+                  {candidatesWithVotes.map((candidate, index) => (
+                    <Typography key={index} style={{ padding: 10 }}>
+                      UID: {candidate.uid}, Votes: {candidate.votes.toString()}
+                    </Typography>
+                  ))}
+                </Card>
+              </div>
+            </Card>
+          </div>
+        </div>
+      );
 }
 
-export default AdminComponent
+export default AdminComponent;

@@ -1,0 +1,114 @@
+/* General container styles */
+.admin-container {
+    width: 100%;
+    background: url('background2.jpg') no-repeat center center fixed;
+    background-size: cover; 
+  }
+  
+.content-card{
+    padding-left: "5%";
+    padding-right:"5%";
+    border-radius: "10px";
+    box-shadow: "0px 4px 10px rgba(0, 0, 0, 0.1)";
+    background: url('background2.jpg') no-repeat center center fixed;
+    block-size: cover;
+}
+  /* Row styling */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  /* Card styles */
+  .card {
+    flex: 1;
+    margin: 0 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #000000; /* White */
+    border: 1px solid #1f0152; /* Light Gray border for subtle definition */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Card title styling */
+  .card-title {
+    color: #000000; /* Black */
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* Button styles */
+  .button-style {
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-style:hover {
+    background-color: #0056b3;
+  }
+  
+
+  
+  /* Typography styles */
+  h1 {
+    color: #000000; /* Black */
+    text-align: center;
+    margin: 0;
+    padding-bottom: 20px;
+  }
+  
+  /* Banner area */
+/* Banner Card Styles */
+.banner-card {
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 2%;
+    border-radius: 10px;
+    background-color: #EAE7FA;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  .banner-card h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #d0d0d0;
+}
+
+  
+  
+  /* TextField Styling */
+  .MuiOutlinedInput-root {
+    background-color: #ffffff; /* White for input fields */
+  }
+  
+  .MuiInputLabel-root {
+    color: #000000; /* Black for labels */
+  }
+  
+  .MuiInputLabel-root.Mui-focused {
+    color: #ff0000; /* Red when focused */
+  }
+  
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #ff0000; /* Red outline when focused */
+  }
+  
+  /* Add padding and better alignment for typography */
+  .typography {
+    padding: 10px 0;
+    color: #000000; /* Black */
+  }
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.card.css-bhp9pd-MuiPaper-root-MuiCard-root {
+    background-color: #EAE7FA;
+  }
+  .MuiPaper-root.banner-card{
+background-color: #170B3B;
+  }

@@ -7,6 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import {getAllCandidate, putVote, votingStarted} from '../web3_functions'
+import Navbar from './Navbar';
+import  './css/voter_component.css';
 
 function VoterComponent({account, contractInstance}) {
 
@@ -50,11 +52,13 @@ function VoterComponent({account, contractInstance}) {
   // };
 
   return (
+    <div className='content-area1'>
+            <Navbar />
     <div style={{paddingTop: "18px", paddingLeft: "5%",paddingRight: "5%" }}>
         <div className='banner-area'style={{marginBottom: 20}} >
           <h1>WELCOME TO PRESIDENT ELECTION</h1>
         </div>
-        <div>
+        <div className='content-area'>
           {
             votingStatus === false ? (
             
@@ -90,12 +94,9 @@ function VoterComponent({account, contractInstance}) {
             ):(
               <h2>no candidate found!</h2>  
           )} 
-          {/* <Link to="/admin" style={{ marginTop: 20 }}>
-            <Button variant="contained">Admin</Button>
-          </Link> */}
         </div>
       </div>
-      
+      </div>
   );
 }
 
