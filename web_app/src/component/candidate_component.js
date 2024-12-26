@@ -22,23 +22,27 @@ const Candidate_List = () => {
     return (
         <div>
             <Navbar />
-        <Box sx={{ padding: 2 }}>
-            <Typography variant="h4">Candidates</Typography>
-            {candidates.map((candidate) => (
-                <Card key={candidate.usn} sx={{ marginBottom: 2 }}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={`http://localhost:5000/uploads/${candidate.photo}`}
-                        alt={candidate.name}
-                    />
-                    <CardContent>
-                        <Typography variant="h5">{candidate.name}</Typography>
-                        <Typography variant="body2" color="text.secondary">{candidate.message}</Typography>
-                    </CardContent>
-                </Card>
-            ))}
-        </Box>
+            <Box sx={{ padding: 2 }}>
+                <Typography variant="h4">Candidates</Typography>
+                {candidates.map((candidate) => (
+                    <Card key={candidate.usn} sx={{ marginBottom: 2 }}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={`http://localhost:5000/uploads/${candidate.photo}`}
+                            alt={candidate.name}
+                        />
+                        <CardContent>
+                            <Typography variant="h5">{candidate.name}</Typography>
+                            <Typography variant="body2" color="text.secondary">{candidate.message}</Typography>
+                            <Typography variant="body2" color="text.secondary">USN: {candidate.usn}</Typography>
+                            <Typography variant="body2" color="text.secondary">Semester: {candidate.semester}</Typography>
+                            <Typography variant="body2" color="text.secondary">Section: {candidate.section}</Typography>
+                            <Typography variant="body2" color="text.secondary">Email: {candidate.email}</Typography>
+                        </CardContent>
+                    </Card>
+                ))}
+            </Box>
         </div>
     );
 };

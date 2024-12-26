@@ -8,11 +8,12 @@ import { Link,useNavigate } from 'react-router-dom';
 import {registerCandidates, whiteListAddress, getAllCandidate, getWinner, startVoting, stopVoting,getAllCandidateVotes} from '../web3_functions'
 import Navbar from './Navbar';
 import  './css/admin_component.css';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import StopIcon from '@mui/icons-material/Stop'; // Icon for Stop Voting
-import PeopleIcon from '@mui/icons-material/People'; // Icon for Voter List
-import PersonIcon from '@mui/icons-material/Person'; // Icon for Candidate List
-
+import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
+import PlayCircleFilledWhiteTwoToneIcon from '@mui/icons-material/PlayCircleFilledWhiteTwoTone';
+import StopCircleTwoToneIcon from '@mui/icons-material/StopCircleTwoTone';
+import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';import PersonIcon from '@mui/icons-material/Person'; // Icon for Candidate List
+import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
+import PollTwoTone from '@mui/icons-material/PollTwoTone';
 const errorMsg = (
     <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
@@ -101,7 +102,7 @@ function AdminComponent({account, contractInstance}) {
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="start voting" onClick={start_voting}>
-                    <PlayArrowIcon /> {/* PlayArrow is a start icon */}
+                    <PlayCircleFilledWhiteTwoToneIcon /> {/* PlayArrow is a start icon */}
                 </IconButton>
                     Start Voting
                   </Typography>
@@ -112,7 +113,7 @@ function AdminComponent({account, contractInstance}) {
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="stop voting" onClick={stop_voting}>
-                        <StopIcon /> {/* Stop Icon */}
+                        <StopCircleTwoToneIcon /> {/* Stop Icon */}
                     </IconButton>
                     Stop Voting
                   </Typography>
@@ -123,7 +124,7 @@ function AdminComponent({account, contractInstance}) {
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="voter list">
-                        <PeopleIcon /> {/* Voter List Icon */}
+                        <PeopleAltTwoToneIcon  /> {/* Voter List Icon */}
                     </IconButton>
                     Voter List
                   </Typography>
@@ -134,7 +135,7 @@ function AdminComponent({account, contractInstance}) {
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="candidate list">
-                        <PersonIcon /> {/* Candidate List Icon */}
+                        <AssignmentIndTwoToneIcon /> {/* Candidate List Icon */}
                     </IconButton>
                     Candidate List
                   </Typography>
@@ -198,6 +199,9 @@ function AdminComponent({account, contractInstance}) {
               <div className="row">
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
+                    <IconButton color='primary' alt='winner'>
+                    <EmojiEventsTwoToneIcon/>
+                    </IconButton>
                     Winner Details
                   </Typography>
                   <CardActions>
@@ -211,6 +215,7 @@ function AdminComponent({account, contractInstance}) {
                 </Card>
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
+                    <IconButton color="primary" aria-label="candidate vote"><PollTwoTone/> </IconButton>
                     Candidates with Votes
                   </Typography>
                   <CardActions>
