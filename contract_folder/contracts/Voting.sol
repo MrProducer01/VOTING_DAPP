@@ -12,7 +12,7 @@ contract Voting {
 
     struct Candidate {
         string name;
-        string uid;
+        string usn;
         bool registered;
         address candidateAddress;
         uint votes;
@@ -25,7 +25,7 @@ contract Voting {
 
     struct WinnerInfo {
         string name;
-        string uid;
+        string usn;
         uint votes;
     }
 
@@ -41,18 +41,18 @@ contract Voting {
         votingStarted = false;
     }
 
-    function registerCandidates(string memory _name, string memory _uid, address _candidateAddress) external {
+    function registerCandidates(string memory _name, string memory _usn, address _candidateAddress) external {
         require(msg.sender == owner, "Only owner can register Candidate!!");
         require(_candidateAddress != owner, "Owner can not participate!!");
         require(candidates[_candidateAddress] == 0, "Candidate already registered");
         Candidate memory candidate = Candidate({
             name: _name,
-            uid: _uid,
+            usn: _usn,
             registered: true,
             votes: 0,
             candidateAddress: _candidateAddress
         });
-        if (candidateList.length == 0) { // not pushing any candidate on location zero;
+        if (candidateList.length == 0) {
             candidateList.push();
         }
         candidates[_candidateAddress] = candidateList.length;
@@ -104,14 +104,14 @@ contract Voting {
         emit success("Voting stopped!!");
     }
 
-    function getAllCandidateVotes() external view returns (string[] memory uids, uint[] memory votes) {
+    function getAllCandidateVotes() external view returns (string[] memory usns, uint[] memory votes) {
         uint candidateCount = candidateList.length;
-        uids = new string[](candidateCount);
+        usns = new string[](candidateCount);
         votes = new uint[](candidateCount);
 
         for (uint i = 0; i < candidateCount; i++) {
-            uids[i] = candidateList[i].uid; // Assuming uid is a property of the Candidate struct
-            votes[i] = candidateList[i].votes; // Assuming votes is a property of the Candidate struct
+            usns[i] = candidateList[i].usn;
+            votes[i] = candidateList[i].votes;
         }
     }
 
@@ -125,9 +125,9 @@ contract Voting {
 
     function getWinner() public view returns (WinnerInfo[] memory winners) {
     require(candidateList.length > 0, "No candidates registered");
-    require(!votingStarted, "Voting is still ongoing"); // Ensure voting has ended
+    require(!votingStarted, "Voting is still ongoing");
 
-    // Find the maximum votes
+
     uint maxVotes = 0;
     for (uint i = 0; i < candidateList.length; i++) {
         if (candidateList[i].votes > maxVotes) {
@@ -135,7 +135,7 @@ contract Voting {
         }
     }
 
-    // Count how many candidates have the maximum votes
+
     uint winnerCount = 0;
     for (uint i = 0; i < candidateList.length; i++) {
         if (candidateList[i].votes == maxVotes) {
@@ -143,14 +143,14 @@ contract Voting {
         }
     }
 
-    // Create an array to hold the winners
+
     winners = new WinnerInfo[](winnerCount);
     uint index = 0;
     for (uint i = 0; i < candidateList.length; i++) {
         if (candidateList[i].votes == maxVotes) {
             winners[index] = WinnerInfo({
                 name: candidateList[i].name,
-                uid: candidateList[i].uid,
+                usn: candidateList[i].usn,
                 votes: candidateList[i].votes
             });
             index++;

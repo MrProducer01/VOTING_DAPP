@@ -10,6 +10,7 @@ import {getAllCandidate, putVote, votingStarted} from '../web3_functions'
 import Navbar from './Navbar';
 import  './css/voter_component.css';
 import voterPageImage from './css/voterpage.jpg';
+import Footer from './Footer';
 
 function VoterComponent({account, contractInstance}) {
 
@@ -65,13 +66,13 @@ function VoterComponent({account, contractInstance}) {
     <CardContent sx={{ flex: 1, paddingRight: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
     <div>
       
-      <Typography variant="body1" sx={{ fontSize: '1.35rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
-        The college president plays a crucial role in shaping the academic and social environment we experience. Your vote directly influences who will lead our institution, advocate for our needs, and guide its future direction.
+      <Typography variant="body1" sx={{ fontSize: '1.55rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
+      YOUR VOTE DIRECTLY INFLUENCES WHO WILL LEAD OUR INSTITUTION !!
       </Typography>
-      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
+      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'left', fontFamily: 'Roboto, sans-serif', marginTop: 3 }}>
       Take a moment to review the candidates and their visions before making your choice. Voting is quick and easy, ensuring that everyone has the opportunity to participate in this important process.
       </Typography>
-      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
+      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'left', fontFamily: 'Roboto, sans-serif', marginTop: 3 }}>
       Your vote matters! Together, let’s choose the leaders who will represent our values and aspirations, making our college a better place for everyone.
       </Typography>
     </div>
@@ -82,7 +83,7 @@ function VoterComponent({account, contractInstance}) {
           {
             votingStatus === false ? (
             
-              <h2>Voting not started yet !!</h2>
+              <h1 style={{color:"black",margin:15}}>Voting not started yet !!</h1>
             ):totalCandidate.length>0?(
               totalCandidate.map((candidate)=>{
                 return(
@@ -100,7 +101,7 @@ function VoterComponent({account, contractInstance}) {
                           {candidate.name} 
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          {candidate.uid}<br/>
+                          {candidate.usn}<br/>
                           {candidate.address}
                         </Typography>
                       </CardContent>
@@ -116,6 +117,7 @@ function VoterComponent({account, contractInstance}) {
           )} 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

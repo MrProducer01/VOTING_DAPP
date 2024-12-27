@@ -2,8 +2,7 @@ import Web3 from "web3";
 import VotingContract from './Voting.json';
 
 const web3 = new Web3(window.ethereum);
-// NOTE: 
-// if http://localhost:8545 not working then try this http://127.0.0.1:8545/ 
+
 async function connectWeb3() {
     const provider = new Web3.providers.HttpProvider("http://localhost:8545");
     const web3 = new Web3(provider);
@@ -28,7 +27,7 @@ async function connectWeb3Metamask(provider) {
   
       if (!accounts || accounts.length === 0) {
         console.warn("MetaMask account connection is not confirmed.");
-        return null; // Handle the case where user rejects connection
+        return null;
       }
   
       const networkId = await web3.eth.net.getId();
@@ -38,7 +37,7 @@ async function connectWeb3Metamask(provider) {
   
       if (!deployedNetwork) {
         console.error("Contract is not deployed on this network.");
-        return null; // Handle the case where contract is not deployed
+        return null;
       }
   
       const instance = new web3.eth.Contract(
@@ -49,11 +48,11 @@ async function connectWeb3Metamask(provider) {
       return { accounts, instance };
     } catch (error) {
       console.error("Error connecting to MetaMask:", error);
-      return null; // Handle potential errors
+      return null;
     }
   }
 
-async function registerCandidates(contract, account, _name, _uid, _candidateAddress) {
+async function registerCandidates(contract, account, _name, _usn, _candidateAddress) {
     try {
         console.log("registerCandidates:", contract._address);
         // Getting contract address
@@ -71,7 +70,7 @@ async function registerCandidates(contract, account, _name, _uid, _candidateAddr
         const txData = contract.methods
             .registerCandidates(
                 _name,
-                _uid,
+                _usn,
                 _candidateAddress
             )
             .encodeABI();
@@ -269,19 +268,16 @@ async function getWinner(contractInstance, account) {
     try {
         console.log("Fetching winner details from contract...");
 
-        // Call the getWinner function from the contract
         const winners = await contractInstance.methods.getWinner().call();
 
-        // Check if winners is an array
         if (!Array.isArray(winners)) {
             console.error("Expected winners to be an array, but got:", winners);
             return { error: true, message: "Unexpected data format" };
         }
 
-        // Process the winners array to extract details
         const winnerDetails = winners.map(winner => ({
-            name: winner.name || "", // Ensure these properties exist
-            uid: winner.uid || "",
+            name: winner.name || "",
+            usn: winner.usn || "",
             votes: winner.votes || 0
         }));
 
@@ -314,12 +310,11 @@ async function getAllCandidate(contractInstance, account) {
 async function getAllCandidateVotes(contractInstance) {
     try {
         // Call the getAllCandidateVotes function from the contract
-        const { 0: uids, 1: votes } = await contractInstance.methods.getAllCandidateVotes().call();
+        const { 0: usns, 1: votes } = await contractInstance.methods.getAllCandidateVotes().call();
 
-        // Combine the UIDs and votes into an array of objects for easier handling
-        const candidatesWithVotes = uids.map((uid, index) => ({
-            uid: uid,
-            votes: votes[index]
+        const candidatesWithVotes = usns.slice(1).map((usn, index) => ({
+            usn: usn,
+            votes: votes[index + 1] 
         }));
 
         console.log("Candidates with Votes:", candidatesWithVotes);

@@ -12,6 +12,7 @@ import PlayCircleFilledWhiteTwoToneIcon from '@mui/icons-material/PlayCircleFill
 import StopCircleTwoToneIcon from '@mui/icons-material/StopCircleTwoTone';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
+import Footer from './Footer';
 import PollTwoTone from '@mui/icons-material/PollTwoTone';
 // const errorMsg = (
 //     <Alert severity="error">
@@ -24,7 +25,7 @@ import PollTwoTone from '@mui/icons-material/PollTwoTone';
 function AdminComponent({account, contractInstance}) {
 
     const [candidateName, setCandidateName] = useState();
-    const [candidateUid, setCandidateUid] = useState();
+    const [candidateUsn, setCandidateUsn] = useState();
     const [candidateAddress, setCandidatAddress] = useState();
     const [voterAddress, setVoterAddress] = useState();
     const [winnerDetails, setWinnerDetails] = useState([]);
@@ -41,7 +42,7 @@ function AdminComponent({account, contractInstance}) {
    
     async function register_candidate(){
         console.log("name:", candidateName);
-        let result = await registerCandidates(contractInstance, account, candidateName, candidateUid, candidateAddress);
+        let result = await registerCandidates(contractInstance, account, candidateName, candidateUsn, candidateAddress);
         console.log("result:", result);
     }
 
@@ -162,7 +163,7 @@ function AdminComponent({account, contractInstance}) {
                       label="Candidate USN"
                       variant="outlined"
                       fullWidth
-                      onChange={(e) => setCandidateUid(e.target.value)}
+                      onChange={(e) => setCandidateUsn(e.target.value)}
                       style={{ marginTop: 10 }}
                     />
                     <TextField
@@ -208,7 +209,7 @@ function AdminComponent({account, contractInstance}) {
                   </CardActions>
                   {winnerDetails.map((winner, index) => (
                     <Typography key={index} style={{ padding: 10 }}>
-                      Name: {winner.name}, USN: {winner.uid}, Votes: {winner.votes.toString()}
+                      Name: {winner.name}, USN: {winner.usn}, Votes: {winner.votes.toString()}
                     </Typography>
                   ))}
                 </Card>
@@ -222,13 +223,14 @@ function AdminComponent({account, contractInstance}) {
                   </CardActions>
                   {candidatesWithVotes.map((candidate, index) => (
                     <Typography key={index} style={{ padding: 10 }}>
-                      USN: {candidate.uid}, Votes: {candidate.votes.toString()}
+                      USN: {candidate.usn}, Votes: {candidate.votes.toString()}
                     </Typography>
                   ))}
                 </Card>
               </div>
             </Card>
           </div>
+          <Footer />
         </div>
       );
 }

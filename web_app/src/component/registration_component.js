@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Typography, FormControlLabel, Switch, Button } from '@mui/material';
 import axios from 'axios';
-import './css/registration_component.css'; // Import the CSS file
+import './css/registration_component.css';
 import Navbar from './Navbar';
+import Footer from './Footer';
 
 const Registration = () => {
     const [isCandidate, setIsCandidate] = useState(false);
@@ -53,7 +54,7 @@ const Registration = () => {
                 <div className="image-section" />
                 <div className="form-section">
                     <div className="switch-row">
-                        <Typography variant="body1">Voter</Typography>
+                        <Typography variant="body1"  >Voter</Typography>
                         <FormControlLabel
                             control={
                                 <Switch
@@ -64,7 +65,7 @@ const Registration = () => {
                             }
                             label=""
                         />
-                        <Typography variant="body1">Candidate</Typography>
+                        <Typography variant="body1" >Candidate</Typography>
                     </div>
                     <form onSubmit={handleSubmit}>
                         <TextField
@@ -122,6 +123,7 @@ const Registration = () => {
                     </form>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

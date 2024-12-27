@@ -35,6 +35,7 @@ body {
 }
 
 .switch-row {
+    color: #170B3B;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,5 +85,5 @@ button {
   }
   .banner h1 {
     font-weight: bold;
-    color: #ecf8f8;
+    color: #d0d0d0;
 }

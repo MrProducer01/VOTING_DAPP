@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Box, Typography, Card, CardContent, CardMedia, TextField, Button } from '@mui/material';
 import Navbar from './Navbar';
 import candiImage from './css/9544563_4192364.jpg';
+import Footer from './Footer';
 
 const Candidate_List = () => {
     const [candidates, setCandidates] = useState([]);
@@ -49,13 +50,13 @@ const Candidate_List = () => {
                     <Typography variant="h6" sx={{ fontSize: '1.55rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
                     EXPLORE THE PROFILES OF CANDIDATES RUNNING FOR ELECTIONS
                      </Typography>
-                      <Typography variant="h6" sx={{ fontSize: '1.35rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
+                      <Typography variant="h6" sx={{ fontSize: '1.2rem', textAlign: 'left', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold',marginTop:3 }}>
                       Welcome to the Candidates Page for the upcoming College Election! Here, you’ll meet the individuals eager to represent and lead our student community. Each candidate brings unique ideas and a passion for enhancing campus life.
                       </Typography>
-                      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
-                      On this page, you’ll find their profiles outlining their goals and visions for our college. From academic improvements to community events, they aim to create a positive impact and address the needs of every student.
+                      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'left', fontFamily: 'Roboto, sans-serif', marginTop: 3 }}>
+                      Their profiles outlining their goals and visions for our college. From academic improvements to community events, they aim to create a positive impact and address the needs of every student.
                       </Typography>
-                      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
+                      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'left', fontFamily: 'Roboto, sans-serif', marginTop: 3 }}>
                       Your vote matters in shaping our future. Take a moment to learn about the candidates and their plans. Together, let’s choose leaders who will make our college stronger and more united!
                       </Typography>
                     </div>
@@ -111,10 +112,9 @@ const Candidate_List = () => {
                         justifyContent: 'space-between' 
                     }}>
                         <div>
-                            <Typography variant="h5" sx={{ fontSize: '1.5rem', textAlign: 'left' }}>{candidate.name}</Typography> {/* Align name to the left */}
-                            <Typography variant="h6" sx={{ fontSize: '1.25rem', color: 'text.secondary', textAlign: 'left' }}>USN: {candidate.usn}</Typography> {/* Align USN to the left */}
+                            <Typography variant="h5" sx={{ fontSize: '1.5rem', textAlign: 'left' }}>{candidate.name}</Typography>
+                            <Typography variant="h6" sx={{ fontSize: '1.25rem', color: 'text.secondary', textAlign: 'left' }}>USN: {candidate.usn}</Typography>
                             
-                            {/* Gradient Divider */}
                             <Box 
                                 sx={{ 
                                     height: '2px', 
@@ -123,7 +123,7 @@ const Candidate_List = () => {
                                 }} 
                             />
                             
-                            <Typography variant="body1" sx={{ fontSize: '1rem' }}>{candidate.message}</Typography> {/* Font size for message */}
+                            <Typography variant="body1" sx={{ fontSize: '1rem' }}>{candidate.message}</Typography>
                         </div>
                         <Typography variant="body2" color="text.secondary" sx={{ marginTop: 'auto', fontSize: '1rem', textAlign: 'right' }}>
                             Semester: {candidate.semester} | Section: {candidate.section}
@@ -135,6 +135,7 @@ const Candidate_List = () => {
                     color="primary" 
                     sx={{ marginTop: 2 }} component={Link} to="/voting">Vote Now</Button>
             </Box>
+            <Footer />
         </div>
     );
 };
