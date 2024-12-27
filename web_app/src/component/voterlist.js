@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Typography, Card, CardContent } from '@mui/material';
+import { Box, Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Navbar from './Navbar';
 
 const VoterList = () => {
@@ -22,20 +22,37 @@ const VoterList = () => {
     return (
         <div>
             <Navbar />
-        <Box sx={{ padding: 2 }}>
-            <Typography variant="h4">Voter List</Typography>
-            {voters.map((voter) => (
-                <Card key={voter.usn} sx={{ marginBottom: 2 }}>
+            <Box sx={{ padding: 2 }}>
+                <Typography variant="h4" sx={{ marginBottom: 2 }}>Voter List</Typography>
+                <Card>
                     <CardContent>
-                        <Typography variant="h5">{voter.name}</Typography>
-                        <Typography variant="body2">Section: {voter.section}</Typography>
-                        <Typography variant="body2">Semester: {voter.semester}</Typography>
-                        <Typography variant="body2">USN: {voter.usn}</Typography>
-                        <Typography variant="body2">Email: {voter.email}</Typography>
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Name</TableCell>
+                                        <TableCell>USN</TableCell>
+                                        <TableCell>Section</TableCell>
+                                        <TableCell>Semester</TableCell>
+                                        <TableCell>Email</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {voters.map((voter) => (
+                                        <TableRow key={voter.usn}>
+                                            <TableCell>{voter.name}</TableCell>
+                                            <TableCell>{voter.usn}</TableCell>
+                                            <TableCell>{voter.section}</TableCell>
+                                            <TableCell>{voter.semester}</TableCell>
+                                            <TableCell>{voter.email}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </CardContent>
                 </Card>
-            ))}
-        </Box>
+            </Box>
         </div>
     );
 };

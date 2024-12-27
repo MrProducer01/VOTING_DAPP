@@ -9,6 +9,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import Registration from './component/registration_component';
 import Candidate_List from './component/candidate_component';
 import VoterList from './component/voterlist';
+//import  '.component/css/admin_component.css';
 function App() {
   const [contractInstance, setContract] = useState(null);
   const [accounts, setAccounts] = useState();
