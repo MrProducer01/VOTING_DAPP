@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Allow the image and form sections to stretch equally */
+    margin: 1rem auto;
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-section {
+    flex: 1;
+    background: url('./user.png') no-repeat center center;
+    background-size: cover;
+    min-height: 400px;
+}
+
+.form-section {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.switch-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+input[type='file'] {
+    margin-top: 1rem;
+}
+
+/* Additional styles for better spacing and aesthetics */
+h5 {
+    margin-bottom: 1rem; /* Add space below the title */
+}
+
+button {
+    align-self: center; /* Center the button */
+    margin-top: 1rem; /* Add space above the button */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .registration-container {
+        flex-direction: column; /* Stack image and form on smaller screens */
+    }
+
+    .image-section {
+        min-height: 200px; /* Reduce height for smaller screens */
+    }
+}
+.banner{
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 1%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    border-radius: 10px;
+    background-color: #170B3B;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1px;
+  }
+  .banner h1 {
+    font-weight: bold;
+    color: #ecf8f8;
+}

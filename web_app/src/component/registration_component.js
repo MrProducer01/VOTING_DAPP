@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { TextField, Button, Typography, Box, FormControlLabel, Switch } from '@mui/material';
+import { TextField, Typography, FormControlLabel, Switch, Button } from '@mui/material';
 import axios from 'axios';
+import './css/registration_component.css'; // Import the CSS file
 import Navbar from './Navbar';
 
 const Registration = () => {
-    const [isCandidate, setIsCandidate] = useState(false); // Default to voter
+    const [isCandidate, setIsCandidate] = useState(false);
     const [name, setName] = useState('');
     const [section, setSection] = useState('');
     const [semester, setSemester] = useState('');
@@ -21,66 +22,106 @@ const Registration = () => {
         formData.append('semester', semester);
         formData.append('usn', usn);
         formData.append('email', email);
-        formData.append('role', isCandidate ? 'candidate' : 'voter'); // Set role based on switch state
+        formData.append('role', isCandidate ? 'candidate' : 'voter');
 
         if (isCandidate) {
             formData.append('message', message);
             formData.append('photo', photo);
         }
-        if (!name || !section || !semester || !usn || !email || !formData.get('role')) {
-            alert("Please fill in all required fields.");
-            return;
-        }
 
-        // Log the formData for debugging
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
+        if (!name || !section || !semester || !usn || !email) {
+            alert('Please fill in all required fields.');
+            return;
         }
 
         try {
             const response = await axios.post('http://localhost:5000/api/register', formData);
             alert(response.data.message);
         } catch (error) {
-            console.error("There was an error registering!", error);
-            alert("Registration failed. Please try again.");
+            console.error('There was an error registering!', error);
+            alert('Registration failed. Please try again.');
         }
     };
 
     return (
         <div>
             <Navbar />
-            <Box sx={{ padding: 2 }}>
-                <Typography variant="h4">Registration</Typography>
-                <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ marginBottom: 2 }}>
-                    <Typography variant="body1">Voter</Typography>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={isCandidate}
-                                onChange={() => setIsCandidate(!isCandidate)}
-                                color="primary"
-                            />
-                        }
-                        label=""
-                        sx={{ margin: 0 }} // Remove default margin
-                    />
-                    <Typography variant="body1">Candidate</Typography>
-                </Box>
-                <form onSubmit={handleSubmit}>
-                    <TextField label="Name" fullWidth required onChange={(e) => setName(e.target.value)} />
-                    <TextField label="Section" fullWidth required onChange={(e) => setSection(e.target.value)} />
-                    <TextField label="Semester" fullWidth required onChange={(e) => setSemester(e.target.value)} />
-                    <TextField label="USN" fullWidth required onChange={(e) => setUsn(e.target.value)} />
-                    <TextField label="Email" type="email" fullWidth required onChange={(e) => setEmail(e.target.value)} />
-                    {isCandidate && (
-                        <>
-                            <TextField label="Message to Voters" fullWidth multiline rows={4} onChange={(e) => setMessage(e.target.value)} />
-                            <input type="file" onChange={(e) => setPhoto(e.target.files[0])} required />
-                        </>
-                    )}
-                    <Button type="submit" variant="contained" sx={{ marginTop: 2 }}>Register</Button>
-                </form>
-            </Box>
+            <div className="banner" style={{borderRadius:"10px"}}>
+                    <h1>REGISTRATION</h1>
+            </div>
+            <div className="registration-container">
+                <div className="image-section" />
+                <div className="form-section">
+                    <div className="switch-row">
+                        <Typography variant="body1">Voter</Typography>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={isCandidate}
+                                    onChange={() => setIsCandidate(!isCandidate)}
+                                    color="primary"
+                                />
+                            }
+                            label=""
+                        />
+                        <Typography variant="body1">Candidate</Typography>
+                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                            label="Name"
+                            fullWidth
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <TextField
+                            label="Section"
+                            fullWidth
+                            required
+                            value={section}
+                            onChange={(e) => setSection(e.target.value)}
+                        />
+                        <TextField
+                            label="Semester"
+                            fullWidth
+                            required
+                            value={semester}
+                            onChange={(e) => setSemester(e.target.value)}
+                        />
+                        <TextField
+                            label="USN"
+                            fullWidth
+                            required
+                            value={usn}
+                            onChange={(e) => setUsn(e.target.value)}
+                        />
+                        <TextField
+                            label="Email"
+                            type="email"
+                            fullWidth
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        {isCandidate && (
+                            <>
+                                <TextField
+                                    label="Message to Voters"
+                                    fullWidth
+                                    multiline
+                                    rows={4}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
+                                <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
+                            </>
+                        )}
+                        <Button className='custom-button' type="submit" variant="contained" sx={{ marginTop: 2 }}>
+                            Register
+                        </Button>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };

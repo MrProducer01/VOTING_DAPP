@@ -2,18 +2,17 @@
 .admin-container {
     width: 100%;
     /*background: url('background2.jpg') no-repeat center center fixed;*/
-    background-size: cover; 
+    /* background-size: cover;  */
   }
   
-.content-card{
+/* .content-card{
     padding-left: "5%";
     padding-right:"5%";
     border-radius: "10px";
     box-shadow: "0px 4px 10px rgba(0, 0, 0, 0.1)";
-    /*background: url('background2.jpg') no-repeat center center fixed;*/
-    background-color: #EAE7FA;
-    background-size: cover;
-}
+    /* background: url('background2.jpg') no-repeat center center fixed;
+    background-size: cover; }*/
+
   /* Row styling */
   .row {
     display: flex;
@@ -27,9 +26,9 @@
     margin: 0 10px;
     padding: 15px;
     box-sizing: border-box;
-    background: #000000; /* White */
-    border: 1px solid #1f0152; /* Light Gray border for subtle definition */
-    border-radius: 10px;
+    background: #000000;
+    border: none; 
+    border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out;
   }
@@ -46,7 +45,7 @@
   }
   
   /* Button styles */
-  .button-style {
+  /* .button-style {
     background-color: #007bff;
     color: white;
     transition: background-color 0.3s ease;
@@ -54,7 +53,7 @@
   
   .button-style:hover {
     background-color: #0056b3;
-  }
+  } */
   
 
   
@@ -72,7 +71,7 @@
     padding-left: 5%;
     padding-right: 5%;
     margin-top: 2%;
-    border-radius: 10px;
+    border-radius: 20px;
     background-color: #EAE7FA;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -107,9 +106,18 @@
     padding: 10px 0;
     color: #000000; /* Black */
   }
-  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.card.css-bhp9pd-MuiPaper-root-MuiCard-root {
-    background-color: #EAE7FA;
+  .MuiPaper-root.MuiPaper-elevation.card {
+    background-color: #ecf8f8;
+    border-radius: 10px;
   }
   .MuiPaper-root.banner-card{
 background-color: #170B3B;
   }
+  .custom-button {
+    background-color: #170B3B !important; /* Use !important to override MUI styles */
+    color: white !important; /* Ensure text is visible */
+}
+
+.custom-button:hover {
+    background-color: #0f0a1e !important; /* Darker shade for hover effect */
+}

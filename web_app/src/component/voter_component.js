@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import personImage from '../person.png'
 import Card from '@mui/material/Card';
-import { Link,useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import {getAllCandidate, putVote, votingStarted} from '../web3_functions'
 import Navbar from './Navbar';
 import  './css/voter_component.css';
+import voterPageImage from './css/voterpage.jpg';
 
 function VoterComponent({account, contractInstance}) {
 
@@ -34,7 +35,6 @@ function VoterComponent({account, contractInstance}) {
         }
       } catch (error) {
         console.error("Error retrieving candidates:", error);
-        // Update state to reflect error (optional: display error message)
       }
     }
   
@@ -47,16 +47,36 @@ function VoterComponent({account, contractInstance}) {
     console.log("result:", result);
   }
   
-  // const isAdmin = (adminAddress) => {
-  //   return account === adminAddress;
-  // };
-
   return (
     <div className='content-area1'>
             <Navbar />
-    <div style={{paddingTop: "18px", paddingLeft: "5%",paddingRight: "5%" }}>
-        <div className='banner-area'style={{marginBottom: 20}} >
+    <div style={{paddingTop: "1px", paddingLeft: "5%",paddingRight: "5%" }}>
+        <div className='banner-area'style={{marginBottom: 5}} >
           <h1>WELCOME TO PRESIDENT ELECTION</h1>
+        </div>
+        <div>
+        <Card sx={{ display: 'flex', marginBottom: 5, borderRadius: '10px' }}>
+        <CardMedia
+          component="img"
+          sx={{ width: '40%', height: 'auto', borderRadius: '16px 0 0 16px', objectFit: 'cover' }}
+          image={voterPageImage}
+          alt="Candidate"
+        />
+    <CardContent sx={{ flex: 1, paddingRight: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <div>
+      
+      <Typography variant="body1" sx={{ fontSize: '1.35rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', fontWeight: 'bold' }}>
+        The college president plays a crucial role in shaping the academic and social environment we experience. Your vote directly influences who will lead our institution, advocate for our needs, and guide its future direction.
+      </Typography>
+      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
+      Take a moment to review the candidates and their visions before making your choice. Voting is quick and easy, ensuring that everyone has the opportunity to participate in this important process.
+      </Typography>
+      <Typography variant="body1" sx={{ fontSize: '1.2rem', textAlign: 'center', fontFamily: 'Roboto, sans-serif', marginTop: 1 }}>
+      Your vote matters! Together, let’s choose the leaders who will represent our values and aspirations, making our college a better place for everyone.
+      </Typography>
+    </div>
+    </CardContent>
+      </Card>
         </div>
         <div className='content-area'>
           {
@@ -86,7 +106,7 @@ function VoterComponent({account, contractInstance}) {
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
-                      <Button variant="contained" onClick={(e)=>vote(candidate)}>Vote</Button>
+                      <Button className='custom-button' variant="contained" onClick={(e)=>vote(candidate)}>Vote</Button>
                     </CardActions>
                   </Card>
                 )
@@ -96,7 +116,7 @@ function VoterComponent({account, contractInstance}) {
           )} 
         </div>
       </div>
-      </div>
+    </div>
   );
 }
 

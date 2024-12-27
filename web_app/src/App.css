@@ -6,13 +6,14 @@ body {
   text-align: center;
   background-color: #cbcdce;
   min-height: 100vh;
-  background: url('./component/css/3883752.jpg') no-repeat center center fixed;
+  /*background: url('./component/css/3883752.jpg') no-repeat center center fixed;*/
+  background-color: #ecf8f8;
   background-size: cover;
   width: 100%;
 }
 
 .banner-area{
-  height: 100px;
+  height: 15%;
   width: 100%;
   background-color: #1f93cd;
 }

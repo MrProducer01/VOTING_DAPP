@@ -1,25 +1,24 @@
 import React, {useState, useEffect} from 'react';
 import { TextField } from '@mui/material';
-import Grid from '@mui/material/Box'
 import { Card, CardActions, Typography, Button, IconButton,CardContent } from '@mui/material';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+// import Alert from '@mui/material/Alert';
+// import AlertTitle from '@mui/material/AlertTitle';
 import { Link,useNavigate } from 'react-router-dom';
-import {registerCandidates, whiteListAddress, getAllCandidate, getWinner, startVoting, stopVoting,getAllCandidateVotes} from '../web3_functions'
+import {registerCandidates, whiteListAddress, getWinner, startVoting, stopVoting,getAllCandidateVotes} from '../web3_functions'
 import Navbar from './Navbar';
 import  './css/admin_component.css';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@mui/icons-material/PlayCircleFilledWhiteTwoTone';
 import StopCircleTwoToneIcon from '@mui/icons-material/StopCircleTwoTone';
-import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';import PersonIcon from '@mui/icons-material/Person'; // Icon for Candidate List
+import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 import AssignmentIndTwoToneIcon from '@mui/icons-material/AssignmentIndTwoTone';
 import PollTwoTone from '@mui/icons-material/PollTwoTone';
-const errorMsg = (
-    <Alert severity="error">
-        <AlertTitle>Error</AlertTitle>
-        This is an error alert — <strong>check it out!</strong>
-    </Alert>
-)
+// const errorMsg = (
+//     <Alert severity="error">
+//         <AlertTitle>Error</AlertTitle>
+//         This is an error alert — <strong>check it out!</strong>
+//     </Alert>
+// )
 
 
 function AdminComponent({account, contractInstance}) {
@@ -28,9 +27,6 @@ function AdminComponent({account, contractInstance}) {
     const [candidateUid, setCandidateUid] = useState();
     const [candidateAddress, setCandidatAddress] = useState();
     const [voterAddress, setVoterAddress] = useState();
-    const [winnerAddress, setWinnerAddress] = useState();
-    const [winnerUid, setWinnerUid] = useState('');
-    const [winnerVotes, setWinnerVotes] = useState('');
     const [winnerDetails, setWinnerDetails] = useState([]);
     const [candidatesWithVotes, setCandidatesWithVotes] = useState([]);
     const adminAddress = "0xe4A74dCC1bd80d02d70A10958335384Ccb2a6f18";
@@ -82,70 +78,74 @@ function AdminComponent({account, contractInstance}) {
         console.log("Fetching winner details...");
         const { error, message } = await getWinner(contractInstance, account);
         if (!error) {
-            setWinnerDetails(message); // Set winner details in state
+            setWinnerDetails(message);
         } else {
             console.error("Error fetching winner details:", message);
-            setWinnerDetails([]); // Reset to an empty array on error
+            setWinnerDetails([]);
         }
     }
     return (
         <div className="admin-container">
           <Navbar />
           <div style={{ padding: "20px 5%" }}>
-            <Card className="content-card" style={{ paddingLeft: "5%",paddingRight:"5%", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
-            <Card className="banner-card">
+          <Card className="content-card" style={{ 
+            paddingLeft: "5%", 
+            paddingRight: "5%", 
+            borderRadius: "20px", 
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", 
+            backgroundColor: "#B7D3F2" 
+            }}>
+            <Card className="banner-card" style={{borderRadius:"10px"}}>
                     <h1>ADMIN CONTROL PANEL</h1>
             </Card>
       
-              {/* First Row */}
               <div className="row">
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="start voting" onClick={start_voting}>
-                    <PlayCircleFilledWhiteTwoToneIcon /> {/* PlayArrow is a start icon */}
+                    <PlayCircleFilledWhiteTwoToneIcon />
                 </IconButton>
                     Start Voting
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" onClick={start_voting}>Start Voting</Button>
+                    <Button className='custom-button' variant="contained" onClick={start_voting}>Start Voting</Button>
                   </CardActions>
                 </Card>
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="stop voting" onClick={stop_voting}>
-                        <StopCircleTwoToneIcon /> {/* Stop Icon */}
+                        <StopCircleTwoToneIcon />
                     </IconButton>
                     Stop Voting
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" onClick={stop_voting}>Stop Voting</Button>
+                    <Button className='custom-button' variant="contained" onClick={stop_voting}>Stop Voting</Button>
                   </CardActions>
                 </Card>
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="voter list">
-                        <PeopleAltTwoToneIcon  /> {/* Voter List Icon */}
+                        <PeopleAltTwoToneIcon  />
                     </IconButton>
                     Voter List
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" component={Link} to="/voterlist">Voter List</Button>
+                    <Button className='custom-button' variant="contained" component={Link} to="/voterlist">Voter List</Button>
                   </CardActions>
                 </Card>
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
                   <IconButton color="primary" aria-label="candidate list">
-                        <AssignmentIndTwoToneIcon /> {/* Candidate List Icon */}
+                        <AssignmentIndTwoToneIcon />
                     </IconButton>
                     Candidate List
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" component={Link} to="/candidate">Candidate List</Button>
+                    <Button className='custom-button' variant="contained" component={Link} to="/candidate">Candidate List</Button>
                   </CardActions>
                 </Card>
               </div>
       
-              {/* Second Row */}
               <div className="row">
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
@@ -159,7 +159,7 @@ function AdminComponent({account, contractInstance}) {
                       onChange={(e) => setCandidateName(e.target.value)}
                     />
                     <TextField
-                      label="Candidate UID"
+                      label="Candidate USN"
                       variant="outlined"
                       fullWidth
                       onChange={(e) => setCandidateUid(e.target.value)}
@@ -174,7 +174,7 @@ function AdminComponent({account, contractInstance}) {
                     />
                   </CardContent>
                   <CardActions>
-                    <Button variant="contained" onClick={register_candidate}>Register Candidate</Button>
+                    <Button className='custom-button' variant="contained" onClick={register_candidate}>Register Candidate</Button>
                   </CardActions>
                 </Card>
                 <Card className="card">
@@ -190,12 +190,11 @@ function AdminComponent({account, contractInstance}) {
                     />
                   </CardContent>
                   <CardActions>
-                    <Button variant="contained" onClick={register_voter}>Register Voter</Button>
+                    <Button className='custom-button' variant="contained" onClick={register_voter}>Register Voter</Button>
                   </CardActions>
                 </Card>
               </div>
       
-              {/* Third Row */}
               <div className="row">
                 <Card className="card">
                   <Typography variant="h5" className="card-title">
@@ -205,11 +204,11 @@ function AdminComponent({account, contractInstance}) {
                     Winner Details
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" onClick={get_Winner}>Get Winner</Button>
+                    <Button className='custom-button' variant="contained" onClick={get_Winner}>Get Winner</Button>
                   </CardActions>
                   {winnerDetails.map((winner, index) => (
                     <Typography key={index} style={{ padding: 10 }}>
-                      Name: {winner.name}, UID: {winner.uid}, Votes: {winner.votes.toString()}
+                      Name: {winner.name}, USN: {winner.uid}, Votes: {winner.votes.toString()}
                     </Typography>
                   ))}
                 </Card>
@@ -219,11 +218,11 @@ function AdminComponent({account, contractInstance}) {
                     Candidates with Votes
                   </Typography>
                   <CardActions>
-                    <Button variant="contained" onClick={fetchCandidatesWithVotes}>Fetch Candidates</Button>
+                    <Button className='custom-button' variant="contained" onClick={fetchCandidatesWithVotes}>Fetch Candidates</Button>
                   </CardActions>
                   {candidatesWithVotes.map((candidate, index) => (
                     <Typography key={index} style={{ padding: 10 }}>
-                      UID: {candidate.uid}, Votes: {candidate.votes.toString()}
+                      USN: {candidate.uid}, Votes: {candidate.votes.toString()}
                     </Typography>
                   ))}
                 </Card>

@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { connectWeb3Metamask } from './web3_functions';
 import detectEthereumProvider from '@metamask/detect-provider';
 import Registration from './component/registration_component';
-import Candidate_List from './component/candidate_component';
+import CandidateList from './component/candidate_component';
 import VoterList from './component/voterlist';
 //import  '.component/css/admin_component.css';
 function App() {
@@ -54,7 +54,7 @@ function App() {
               <Route path="/voting" element={<VoterComponent contractInstance={contractInstance} account={accounts[0]} />} />
               <Route path="/admin" element={<AdminComponent contractInstance={contractInstance} account={accounts[0]} />} />
               <Route path="/register" element={<Registration />} />
-              <Route path="/candidate" element={<Candidate_List />} />
+              <Route path="/candidate" element={<CandidateList />} />
               <Route path="/voterlist" element={<VoterList />} />
             </Routes> 
           </BrowserRouter>

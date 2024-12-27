@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Typography, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Box, Card, CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Navbar from './Navbar';
+import './css/registration_component.css';
 
 const VoterList = () => {
     const [voters, setVoters] = useState([]);
@@ -22,8 +23,10 @@ const VoterList = () => {
     return (
         <div>
             <Navbar />
+            <div className="banner" style={{borderRadius:"10px"}}>
+                    <h1>VOTER LIST</h1>
+            </div>
             <Box sx={{ padding: 2 }}>
-                <Typography variant="h4" sx={{ marginBottom: 2 }}>Voter List</Typography>
                 <Card>
                     <CardContent>
                         <TableContainer>
